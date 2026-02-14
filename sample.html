@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jaan, be my Valentine 💘</title>
+
+<style>
+  body{
+    margin:0;
+    min-height:100vh;
+    display:grid;
+    place-items:center;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    padding:20px;
+  }
+
+  .card{
+    background: rgba(255,255,255,0.95);
+    border-radius:24px;
+    padding:28px 22px;
+    width:min(520px,100%);
+    text-align:center;
+    box-shadow:0 20px 40px rgba(0,0,0,0.18);
+  }
+
+  h1{
+    font-size:clamp(24px,5vw,34px);
+    margin:10px 0 8px;
+  }
+
+  .text{
+    font-size:16px;
+    line-height:1.6;
+    margin-bottom:22px;
+  }
+
+  .buttons{
+    display:flex;
+    gap:14px;
+    justify-content:center;
+    position:relative;
+    min-height:60px;
+  }
+
+  button{
+    padding:14px 22px;
+    border:none;
+    border-radius:14px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 10px 20px rgba(0,0,0,.15);
+    transition: all .2s ease;
+  }
+
+  .yes{
+    background:#22c55e;
+    color:white;
+  }
+
+  .no{
+    background:#ef4444;
+    color:white;
+  }
+
+  /* Shake animation */
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+    100% { transform: translateX(0); }
+  }
+
+  .no.shake {
+    animation: shake 0.35s ease;
+  }
+
+  .result{
+    display:none;
+    margin-top:22px;
+    padding:18px;
+    background:#fff;
+    border-radius:16px;
+    animation: pop .4s ease;
+  }
+
+  .result.show{ display:block; }
+
+  @keyframes pop{
+    from{ transform:scale(.9); opacity:0; }
+    to{ transform:scale(1); opacity:1; }
+  }
+
+  footer{
+    margin-top:14px;
+    font-size:12px;
+    opacity:.75;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1 id="title">Jaan, will you be my Valentine? 💘</h1>
+
+  <p class="text" id="message">
+    I just have one small question for you…  
+    and honestly, there’s only one correct answer 😌
+  </p>
+
+  <div class="buttons" id="buttons">
+    <button class="yes" id="yesBtn">Yes 🥰</button>
+    <button class="no" id="noBtn">No 🙈</button>
+  </div>
+
+  <div class="result" id="result">
+    <h2>YAYYYYY 💖</h2>
+    <p>
+      It’s official now 😌🌹<br>
+      You’re my Valentine, jaan.<br>
+      No take-backs. No refunds. Only love 💕
+    </p>
+  </div>
+
+  <footer>Made with ❤️ by Arun</footer>
+</div>
+
+<script>
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const title = document.getElementById("title");
+  const message = document.getElementById("message");
+  const result = document.getElementById("result");
+  const buttons = document.getElementById("buttons");
+
+  let noCount = 0;
+
+  const noTexts = [
+    "Are you sure? 🤨",
+    "Like… really sure? 😐",
+    "Jaan, think again 🥺",
+    "This is your last chance 👀",
+    "Okay now I’m nervous 😭",
+    "No button is tired now 😵",
+    "Too late 😌"
+  ];
+
+  noBtn.onclick = () => {
+    noCount++;
+
+    // Shake effect
+    noBtn.classList.add("shake");
+    setTimeout(() => noBtn.classList.remove("shake"), 350);
+
+    if(noCount < 7){
+      title.innerText = noTexts[noCount - 1];
+      message.innerText =
+        "Please reconsider carefully. This decision affects snacks, hugs, and dates.";
+
+      // Shrink NO, grow YES
+      noBtn.style.transform = `scale(${1 - noCount * 0.1})`;
+      yesBtn.style.transform = `scale(${1 + noCount * 0.1})`;
+    } else {
+      // FORCE YES
+      buttons.innerHTML = `
+        <button class="yes" style="width:100%; font-size:22px;">
+          YES 🥰💖
+        </button>
+      `;
+      title.innerText = "Correct choice 😌";
+      message.innerText = "The universe has decided. Welcome to Valentine mode.";
+      buttons.querySelector("button").onclick = showResult;
+    }
+  };
+
+  yesBtn.onclick = showResult;
+
+  function showResult(){
+    result.classList.add("show");
+    title.innerText = "Best decision ever 💘";
+    message.innerText = "";
+  }
+</script>
+
+</body>
+</html>
